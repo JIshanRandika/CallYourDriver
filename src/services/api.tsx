@@ -29,3 +29,7 @@ export const suggestDriver = async (parkName: string, category: string) => {
 export const logout = async () => {
   await AsyncStorage.removeItem('token');
 };
+
+export const deductPoints = async (contactNumber: string) => {
+  return api.post('/drivers/deductPoints', { contactNumber });
+};
