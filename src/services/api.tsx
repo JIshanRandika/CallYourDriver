@@ -2,7 +2,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const api = axios.create({
-  baseURL: 'http://192.168.8.100:5000/api',
+  baseURL: 'http://192.168.8.101:5000/api',
 });
 
 api.interceptors.request.use(async (config) => {
@@ -24,4 +24,8 @@ export const register = async (name: string, username: string, password: string,
 
 export const suggestDriver = async (parkName: string, category: string) => {
   return api.post('/drivers/suggest', { parkName, category });
+};
+
+export const logout = async () => {
+  await AsyncStorage.removeItem('token');
 };

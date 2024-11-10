@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, Alert, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Alert, StyleSheet } from 'react-native';
 import { register } from '../services/api';
 
 export default function RegisterScreen({ navigation }: any) {
@@ -25,24 +25,34 @@ export default function RegisterScreen({ navigation }: any) {
         placeholder="Name"
         onChangeText={setName}
         style={styles.input}
+        placeholderTextColor="#B0B3B8"
       />
       <TextInput
         placeholder="Username"
         onChangeText={setUsername}
         style={styles.input}
+        placeholderTextColor="#B0B3B8"
       />
       <TextInput
         placeholder="Password"
         onChangeText={setPassword}
         secureTextEntry
         style={styles.input}
+        placeholderTextColor="#B0B3B8"
       />
       <TextInput
         placeholder="Contact Number"
         onChangeText={setContactNumber}
         style={styles.input}
+        placeholderTextColor="#B0B3B8"
+        keyboardType="phone-pad"
       />
-      <Button title="Register" onPress={handleRegister} />
+      <TouchableOpacity style={styles.registerButton} onPress={handleRegister}>
+        <Text style={styles.registerButtonText}>Register</Text>
+      </TouchableOpacity>
+      <Text style={styles.link} onPress={() => navigation.navigate('Login')}>
+        Already have an account? <Text style={styles.loginText}>Log in</Text>
+      </Text>
     </View>
   );
 }
@@ -50,18 +60,50 @@ export default function RegisterScreen({ navigation }: any) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#1E1E2C',
     justifyContent: 'center',
     paddingHorizontal: 20,
   },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
+    fontSize: 32,
+    fontWeight: '600',
+    color: '#FFFFFF',
+    textAlign: 'center',
+    marginBottom: 30,
   },
   input: {
+    backgroundColor: '#2C2C3A',
+    color: '#FFFFFF',
     borderWidth: 1,
-    padding: 10,
-    marginBottom: 15,
-    borderRadius: 5,
+    borderColor: '#3A3A4B',
+    padding: 15,
+    borderRadius: 10,
+    fontSize: 16,
+    marginBottom: 20,
+  },
+  registerButton: {
+    backgroundColor: '#4F63AC',
+    paddingVertical: 15,
+    borderRadius: 10,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 5,
+  },
+  registerButtonText: {
+    color: '#FFFFFF',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  link: {
+    marginTop: 20,
+    color: '#9DA3B4',
+    textAlign: 'center',
+    fontSize: 16,
+  },
+  loginText: {
+    color: '#4F63AC',
+    fontWeight: '600',
   },
 });

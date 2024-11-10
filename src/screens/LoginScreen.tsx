@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, Alert, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Alert, StyleSheet } from 'react-native';
 import { login } from '../services/api';
 
 export default function LoginScreen({ navigation }: any) {
@@ -22,16 +22,20 @@ export default function LoginScreen({ navigation }: any) {
         placeholder="Username"
         onChangeText={setUsername}
         style={styles.input}
+        placeholderTextColor="#B0B3B8"
       />
       <TextInput
         placeholder="Password"
         onChangeText={setPassword}
         secureTextEntry
         style={styles.input}
+        placeholderTextColor="#B0B3B8"
       />
-      <Button title="Login" onPress={handleLogin} />
+      <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+        <Text style={styles.loginButtonText}>Login</Text>
+      </TouchableOpacity>
       <Text style={styles.link} onPress={() => navigation.navigate('Register')}>
-        Don’t have an account? Register
+        Don’t have an account? <Text style={styles.registerText}>Register</Text>
       </Text>
     </View>
   );
@@ -40,23 +44,50 @@ export default function LoginScreen({ navigation }: any) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#1E1E2C', // Dark background
     justifyContent: 'center',
     paddingHorizontal: 20,
   },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
+    fontSize: 32,
+    fontWeight: '600',
+    color: '#FFFFFF',
+    textAlign: 'center',
+    marginBottom: 30,
   },
   input: {
+    backgroundColor: '#2C2C3A',
+    color: '#FFFFFF',
     borderWidth: 1,
-    padding: 10,
-    marginBottom: 15,
-    borderRadius: 5,
+    borderColor: '#3A3A4B',
+    padding: 15,
+    borderRadius: 10,
+    fontSize: 16,
+    marginBottom: 20,
+  },
+  loginButton: {
+    backgroundColor: '#4F63AC', // Primary color
+    paddingVertical: 15,
+    borderRadius: 10,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 5,
+  },
+  loginButtonText: {
+    color: '#FFFFFF',
+    fontSize: 18,
+    fontWeight: 'bold',
   },
   link: {
-    marginTop: 10,
-    color: 'blue',
+    marginTop: 20,
+    color: '#9DA3B4',
     textAlign: 'center',
+    fontSize: 16,
+  },
+  registerText: {
+    color: '#4F63AC', // Accent color
+    fontWeight: '600',
   },
 });
