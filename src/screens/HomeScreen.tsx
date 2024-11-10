@@ -1,10 +1,36 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { parks, categories } from '../data/data';
 
 export default function HomeScreen({ navigation }: any) {
   const [parkName, setParkName] = useState<string>('');
+  
+  // List of categories to disable
+  const disabledCategories = [
+    'Mini Car 🚙',
+    'Car 🚗',
+    'Mini Van 🚌',
+    'Van 🚐',
+    'Mini Lorry 🚛',
+    'Lorry 🚚',
+  ]; // Modify this as needed
+
+  // Function to handle category selection
+  const handleCategorySelection = (category: string) => {
+    if (!parkName) {
+      // If no park is selected, show an alert
+      Alert.alert(
+        'Select Park',
+        'Please select a park before choosing a category.',
+        [{ text: 'OK' }],
+        { cancelable: true }
+      );
+    } else {
+      // If park is selected, navigate to the next screen
+      navigation.navigate('DriverDetails', { parkName, category });
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -15,6 +41,7 @@ export default function HomeScreen({ navigation }: any) {
           onValueChange={setParkName}
           style={styles.picker}
         >
+          <Picker.Item label="Select a park" value="" />
           {parks.map((park) => (
             <Picker.Item label={park} value={park} key={park} />
           ))}
@@ -23,17 +50,23 @@ export default function HomeScreen({ navigation }: any) {
 
       <Text style={styles.title}>Select Category</Text>
       <View style={styles.categories}>
-        {categories.map((category) => (
-          <TouchableOpacity
-            key={category}
-            style={styles.categoryButton}
-            onPress={() =>
-              navigation.navigate('DriverDetails', { parkName, category })
-            }
-          >
-            <Text style={styles.categoryText}>{category}</Text>
-          </TouchableOpacity>
-        ))}
+        {categories.map((category) => {
+          const isDisabled = disabledCategories.includes(category);
+
+          return (
+            <TouchableOpacity
+              key={category}
+              style={[
+                styles.categoryButton,
+                isDisabled && styles.disabledButton // Apply disabled styles
+              ]}
+              onPress={() => handleCategorySelection(category)}
+              disabled={isDisabled} // Disable interaction
+            >
+              <Text style={styles.categoryText}>{category}</Text>
+            </TouchableOpacity>
+          );
+        })}
       </View>
     </View>
   );
@@ -84,5 +117,8 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 16,
     fontWeight: '500',
+  },
+  disabledButton: {
+    backgroundColor: '#A5A5A5', // Greyed out button color
   },
 });
