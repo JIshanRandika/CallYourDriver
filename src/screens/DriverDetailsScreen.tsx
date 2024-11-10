@@ -10,13 +10,26 @@ export default function DriverDetailsScreen({ route }: any) {
     const fetchDriver = async () => {
       try {
         const response = await suggestDriver(parkName, category);
-        setDriver(response.data);
+        if (response.data && response.data.driver) {
+          setDriver(response.data);
+        } else {
+          setDriver(null);  // If no driver is available
+        }
       } catch (error) {
         console.error("Error fetching driver:", error);
+        setDriver(null);  // If there's an error, set driver to null
       }
     };
     fetchDriver();
   }, [parkName, category]);
+
+  if (driver === null) {
+    return (
+      <View style={styles.loadingContainer}>
+        <Text style={styles.loadingText}>Drivers currently not available</Text>
+      </View>
+    );
+  }
 
   if (!driver) {
     return (
