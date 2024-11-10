@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, Linking, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, Text, TouchableOpacity, Linking, StyleSheet, ActivityIndicator, Alert } from 'react-native';
 import { suggestDriver } from '../services/api';
 
 export default function DriverDetailsScreen({ route }: any) {
@@ -22,6 +22,31 @@ export default function DriverDetailsScreen({ route }: any) {
     };
     fetchDriver();
   }, [parkName, category]);
+
+  const handleCallDriver = () => {
+    Alert.alert(
+      "⚠️ Warning ⚠️",
+      "Are you sure you want to call this driver? \n\nPoints will be deducted from their balance for each call!",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "Yes, Call Now",
+          style: "destructive", // This makes the "Yes" button red to indicate danger
+          onPress: () => {
+            // Deduct points from the driver here (make an API call if necessary)
+            console.log('Points deducted from driver');
+            
+            // Proceed with the call
+            Linking.openURL(`tel:${driver.driver.contactNumber}`);
+          },
+        },
+      ],
+      { cancelable: false }
+    );
+  };
 
   if (driver === null) {
     return (
@@ -50,7 +75,7 @@ export default function DriverDetailsScreen({ route }: any) {
       </View>
       <TouchableOpacity
         style={styles.callButton}
-        onPress={() => Linking.openURL(`tel:${driver.driver.contactNumber}`)}
+        onPress={handleCallDriver}
       >
         <Text style={styles.callButtonText}>Call Driver</Text>
       </TouchableOpacity>
