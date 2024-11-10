@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, Linking, StyleSheet, ActivityIndicator, Alert } from 'react-native';
-import { suggestDriver } from '../services/api';
+import { suggestDriver, deductPoints } from '../services/api';
 
 export default function DriverDetailsScreen({ route }: any) {
   const { parkName, category } = route.params;
@@ -35,12 +35,18 @@ export default function DriverDetailsScreen({ route }: any) {
         {
           text: "Yes, Call Now",
           style: "destructive", // This makes the "Yes" button red to indicate danger
-          onPress: () => {
-            // Deduct points from the driver here (make an API call if necessary)
-            console.log('Points deducted from driver');
-            
-            // Proceed with the call
-            Linking.openURL(`tel:${driver.driver.contactNumber}`);
+          onPress: async () => {
+            try {
+              // Call the API to deduct points from the driver
+              await deductPoints(driver.driver.contactNumber);
+              console.log('Points deducted from driver');
+
+              // Proceed with the call
+              Linking.openURL(`tel:${driver.driver.contactNumber}`);
+            } catch (error) {
+              console.error('Error deducting points from driver:', error);
+              Alert.alert('Error', 'Failed to deduct points from the driver.');
+            }
           },
         },
       ],
@@ -77,7 +83,7 @@ export default function DriverDetailsScreen({ route }: any) {
         style={styles.callButton}
         onPress={handleCallDriver}
       >
-        <Text style={styles.callButtonText}>Call Driver</Text>
+        <Text style={styles.callButtonText}>Call Your Driver</Text>
       </TouchableOpacity>
     </View>
   );
