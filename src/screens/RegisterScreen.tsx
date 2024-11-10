@@ -6,9 +6,14 @@ export default function RegisterScreen({ navigation }: any) {
   const [name, setName] = useState<string>('');
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [confirmPassword, setConfirmPassword] = useState<string>('');
   const [contactNumber, setContactNumber] = useState<string>('');
 
   const handleRegister = async () => {
+    if (password !== confirmPassword) {
+      Alert.alert('Registration Failed', 'Passwords do not match');
+      return;
+    }
     try {
       await register(name, username, password, contactNumber);
       Alert.alert('Registration Successful', 'Please log in');
@@ -41,12 +46,22 @@ export default function RegisterScreen({ navigation }: any) {
         placeholderTextColor="#B0B3B8"
       />
       <TextInput
+        placeholder="Confirm Password"
+        onChangeText={setConfirmPassword}
+        secureTextEntry
+        style={styles.input}
+        placeholderTextColor="#B0B3B8"
+      />
+      <TextInput
         placeholder="Contact Number"
         onChangeText={setContactNumber}
         style={styles.input}
         placeholderTextColor="#B0B3B8"
         keyboardType="phone-pad"
       />
+      <Text style={styles.link}>
+        Please remember your username and password. You cannot change them after your registration.
+      </Text>
       <TouchableOpacity style={styles.registerButton} onPress={handleRegister}>
         <Text style={styles.registerButtonText}>Register</Text>
       </TouchableOpacity>
@@ -82,6 +97,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   registerButton: {
+    marginTop: 20,
     backgroundColor: '#4F63AC',
     paddingVertical: 15,
     borderRadius: 10,
