@@ -2,8 +2,8 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const api = axios.create({
-  baseURL: 'https://call-your-driver-backend.vercel.app/api',
-  // baseURL: 'http://192.168.8.101:5000/api',
+  // baseURL: 'https://call-your-driver-backend.vercel.app/api',
+  baseURL: 'http://192.168.8.100:5000/api',
 });
 
 api.interceptors.request.use(async (config) => {
@@ -37,3 +37,7 @@ export const deductPoints = async (contactNumber: string) => {
 
 export const getParks = async () => api.get('/parks');
 export const getCategories = async () => api.get('/categories');
+
+export const resetPassword = async (username: string, newPassword: string) => {
+  await api.post('/users/reset-password', { username, newPassword });
+};
