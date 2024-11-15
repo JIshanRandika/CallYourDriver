@@ -24,6 +24,7 @@ export const register = async (name: string, username: string, password: string,
 };
 
 export const suggestDriver = async (parkName: string, category: string) => {
+  console.log(category)
   return api.post('/drivers/suggest', { parkName, category });
 };
 
