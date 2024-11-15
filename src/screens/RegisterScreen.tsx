@@ -59,8 +59,8 @@ export default function RegisterScreen({ navigation }: any) {
         placeholderTextColor="#B0B3B8"
         keyboardType="phone-pad"
       />
-      <Text style={styles.link}>
-        Please remember your username and password. You cannot change them after your registration.
+      <Text style={styles.warn}>
+        Please remember your username. You cannot change it after your registration.
       </Text>
       <TouchableOpacity style={styles.registerButton} onPress={handleRegister}>
         <Text style={styles.registerButtonText}>Register</Text>
@@ -115,6 +115,12 @@ const styles = StyleSheet.create({
   link: {
     marginTop: 20,
     color: '#9DA3B4',
+    textAlign: 'center',
+    fontSize: 16,
+  },
+  warn: {
+    marginTop: 20,
+    color: 'red',
     textAlign: 'center',
     fontSize: 16,
   },
