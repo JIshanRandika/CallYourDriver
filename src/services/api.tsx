@@ -2,8 +2,8 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const api = axios.create({
-  // baseURL: 'https://call-your-driver-backend.vercel.app/api',
-  baseURL: 'http://192.168.8.100:5000/api',
+  baseURL: 'https://call-your-driver-backend.vercel.app/api',
+  // baseURL: 'http://192.168.8.100:5000/api',
 });
 
 api.interceptors.request.use(async (config) => {
